@@ -14,22 +14,39 @@
     </style>
   </head>
   <body>
+    <p id="para"></p>
     <ul id="messages"></ul>
     <form action="">
       <input id="m" autocomplete="off" /><button>Send</button>
     </form>
-    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.4.4.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
       var socket = io();
+      var chat = io.connect('http://localhost/chat');
+      var news = io.connect('http://localhost/news');
+      chat.on('connect', function () {
+        chat.emit('hi!!');
+      });
+      news.on('connect', function () {
+        news.emit('woot!!');
+      });
       $('form').submit(function(){
-        socket.emit('chat message', $('#m').val());
+        // socket.emit('chat message', $('#m').val());
+        // chat.emit('chat msg', $('#m').val());
+        // news.emit('news msg', $('#m').val());
         $('#m').val('');
         return false;
       });
-      socket.on('chat message', function(msg){
-        $('#messages').append($('<li>').text(msg));
-      });
+      // chat.on('chat msg', function(msg){
+      //   $('#messages').append($('<li>').text(msg));
+      // });
+      // news.on('news msg', function(msg){
+      //   $('#messages').append($('<li>').text(msg));
+      // });
+      // socket.on('chat message', function(msg){
+      //   $('#messages').append($('<li>').text(msg));
+      // });
     </script>
   </body>
 </html>
